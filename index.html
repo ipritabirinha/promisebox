@@ -7,21 +7,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             margin: 0;
             font-family: 'Roboto', sans-serif;
-            background: #121212;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
             color: #ffffff;
             text-align: center;
         }
         .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
             padding: 2rem;
-            border-radius: 8px;
-            max-width: 600px;
-            width: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Fundo translúcido */
         }
         .verse {
             font-size: 1.5rem;
@@ -39,48 +38,39 @@
             align-items: center;
         }
         button {
-            padding: 0.75rem 1.5rem; /* Aumento do padding para melhor usabilidade */
+            padding: 0.75rem 1.5rem;
             font-size: 1rem;
             font-weight: bold;
-            border: 2px solid transparent; /* Bordas inicialmente transparentes */
-            border-radius: 8px; /* Borda levemente arredondada */
+            border: none;
+            border-radius: 8px;
             cursor: pointer;
-            background: transparent;
+            background: #212121;
             color: #f5f5f5;
             width: 200px;
-            transition: all 0.3s ease; /* Transição suave para hover */
+            transition: all 0.3s ease;
         }
         #copy {
-            border-color: #2196f3;
-            color: #2196f3;
+            background-color: #212121;
         }
         #copy:hover {
-            background-color: rgba(33, 150, 243, 0.1); /* Fundo ligeiramente claro no hover */
-            color: #2196f3; /* Texto branco no hover */
-            border-color: #2196f3; /* Bordas azul no hover */
+            background-color: #333333;
         }
         #share {
-            border-color: #f44336;
-            color: #f44336;
+            background-color: #212121;
         }
         #share:hover {
-            background-color: rgba(244, 67, 54, 0.1); /* Fundo ligeiramente claro no hover */
-            color: #f44336; /* Texto branco no hover */
-            border-color: #f44336; /* Bordas vermelhas no hover */
+            background-color: #333333;
         }
         #reflection {
-            border-color: #4caf50;
-            color: #4caf50;
+            background-color: #212121;
         }
         #reflection:hover {
-            background-color: rgba(76, 175, 80, 0.1); /* Fundo ligeiramente claro no hover */
-            color: #4caf50; /* Texto branco no hover */
-            border-color: #4caf50; /* Bordas verde no hover */
+            background-color: #333333;
         }
         .logo {
-            width: 60px; /* Ajuste a largura conforme necessário */
+            width: 60px;
             height: auto;
-            margin-bottom: 10px; /* Espaçamento entre a logo e o título */
+            margin-bottom: 10px;
             display: block;
             margin-left: auto;
             margin-right: auto;
@@ -96,13 +86,15 @@
             <button id="share">COMPARTILHAR</button>
             <button id="reflection">VER REFLEXÃO</button>
         </div>
-        <footer style="margin-top: 100px; font-size: 1.5rem; text-align: center; color: #000000;">
+        <footer style="margin-top: 100px; font-size: 1.5rem; text-align: center; color: #000000;"></footer>
+            <img src="ipri.png" alt="IPR Logo" class="logo" id="churchLogo"> <!-- Adicione um ID ao logo -->
+        <footer class="church-info" style="margin-top: 0px; font-size: 1.1rem; text-align: center; color: #ffffff;">
+            Igreja Presbiteriana Renovada de Itabirinha
         </footer>
-        <img src="ipri.png" alt="IPR Logo" class="logo">
-        <footer style="margin-top: 0px; font-size: 1.1rem; text-align: center; color: #ffffff;">
-        Igreja Presbiteriana Renovada de Itabirinha </footer>
-        <footer style="margin-top: 0px; font-size: 0.9rem; text-align: center; color: #888;">
-        Avenida Prefeito Joel Heringer 210, Vila Nova. </footer>
+        <footer class="church-info" style="margin-top: 0px; font-size: 0.9rem; text-align: center; color: #ffffff; opacity: 0.7;">
+            Avenida Prefeito Joel Heringer 210, Vila Nova.
+        </footer>
+        
     </div>
 
     <script>
@@ -128,6 +120,22 @@
             return verses[randomIndex];
         }
 
+        function getRandomGradient() {
+            const colors = [
+                '#ff7e5f', '#feb47b', '#6a11cb', '#2575fc', '#00d2ff', '#3a7bd5',
+                '#ee9ca7', '#ffdde1', '#4568dc', '#b06ab3', '#ec008c', '#fc6767',
+                '#ffcc29', '#4cb8c4', '#f4786e', '#6874e8', '#a2d729', '#e8764e',
+                '#c8c8c8', '#ff5733', '#ffa700', '#ffcc00', '#33ff33', '#00ffcc',
+                '#00ccff', '#0066ff', '#9933ff', '#ff33ff', '#ff66b2', '#ff5050',
+                '#ff9933', '#ffbf00', '#99cc00', '#66cc66', '#66cccc', '#3366ff',
+                '#993366', '#cc6699', '#ff99cc', '#ffccff', '#ff6666', '#ff9966',
+                '#ffcc99', '#ffff99', '#ccff99', '#99ff99', '#99ffff', '#66ccff'
+            ];
+            const color1 = colors[Math.floor(Math.random() * colors.length)];
+            const color2 = colors[Math.floor(Math.random() * colors.length)];
+            return `linear-gradient(to right, ${color1}, ${color2})`;
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const verseElement = document.getElementById('verse');
             const referenceElement = document.getElementById('reference');
@@ -135,6 +143,8 @@
             const verse = getRandomVerse();
             verseElement.textContent = verse.text;
             referenceElement.textContent = verse.reference;
+
+            document.body.style.background = getRandomGradient();
 
             const reflectionButton = document.getElementById('reflection');
             if (verse.reflection && isValidUrl(verse.reflection)) {
@@ -174,8 +184,25 @@
         });
 
         document.getElementById('reflection').addEventListener('click', () => {
-            const reflectionUrl = verses.find(v => v.index === 2).reflection; // Substitua pelo índice correto se necessário
+            const reflectionUrl = verses.find(v => v.index === 2).reflection;
             window.open(reflectionUrl, '_blank');
+        });
+
+        document.getElementById('churchLogo').addEventListener('click', () => {
+            const buttonsContainer = document.querySelector('.buttons');
+            const churchInfoElements = document.querySelectorAll('.church-info');
+            
+            if (buttonsContainer.style.display === 'none') {
+                buttonsContainer.style.display = 'flex';
+                churchInfoElements.forEach(element => {
+                    element.style.display = 'block';
+                });
+            } else {
+                buttonsContainer.style.display = 'none';
+                churchInfoElements.forEach(element => {
+                    element.style.display = 'none';
+                });
+            }
         });
 
         function isValidUrl(url) {
