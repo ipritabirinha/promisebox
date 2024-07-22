@@ -87,11 +87,11 @@
             <button id="reflection">VER REFLEXÃO</button>
         </div>
         <footer style="margin-top: 100px; font-size: 1.5rem; text-align: center; color: #000000;"></footer>
-            <img src="ipri.png" alt="IPR Logo" class="logo" id="churchLogo"> <!-- Adicione um ID ao logo -->
-        <footer class="church-info" style="margin-top: 0px; font-size: 1.1rem; text-align: center; color: #ffffff;">
+        <img src="ipri.png" alt="IPR Logo" class="logo" id="churchLogo"> <!-- Adicione um ID ao logo -->
+        <footer id="churchName" class="church-info" style="margin-top: 0px; font-size: 1.1rem; text-align: center; color: #ffffff;">
             Igreja Presbiteriana Renovada de Itabirinha
         </footer>
-        <footer class="church-info" style="margin-top: 0px; font-size: 0.9rem; text-align: center; color: #ffffff; opacity: 0.7;">
+        <footer id="churchAddress" class="church-info" style="margin-top: 0px; font-size: 0.9rem; text-align: center; color: #ffffff; opacity: 0.7;">
             Avenida Prefeito Joel Heringer 210, Vila Nova.
         </footer>
         
@@ -1265,6 +1265,45 @@
       },
 ];
 
+       function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                logo: params.get('logo'),
+                name: params.get('name'),
+                locate: params.get('locate')
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const queryParams = getQueryParams();
+            
+            if (queryParams.logo) {
+                document.getElementById('churchLogo').src = queryParams.logo;
+            }
+            if (queryParams.name) {
+                document.getElementById('churchName').textContent = queryParams.name;
+            }
+            if (queryParams.locate) {
+                document.getElementById('churchAddress').textContent = queryParams.locate;
+            }
+            
+            const verseElement = document.getElementById('verse');
+            const referenceElement = document.getElementById('reference');
+
+            const verse = getRandomVerse();
+            verseElement.textContent = verse.text;
+            referenceElement.textContent = verse.reference;
+
+            document.body.style.background = getRandomGradient();
+
+            const reflectionButton = document.getElementById('reflection');
+            if (verse.reflection && isValidUrl(verse.reflection)) {
+                reflectionButton.style.display = 'block';
+            } else {
+                reflectionButton.style.display = 'none';
+            }
+        });
+
         function getRandomVerse() {
             const randomIndex = Math.floor(Math.random() * verses.length);
             return verses[randomIndex];
@@ -1285,24 +1324,6 @@
             const color2 = colors[Math.floor(Math.random() * colors.length)];
             return `linear-gradient(to right, ${color1}, ${color2})`;
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const verseElement = document.getElementById('verse');
-            const referenceElement = document.getElementById('reference');
-
-            const verse = getRandomVerse();
-            verseElement.textContent = verse.text;
-            referenceElement.textContent = verse.reference;
-
-            document.body.style.background = getRandomGradient();
-
-            const reflectionButton = document.getElementById('reflection');
-            if (verse.reflection && isValidUrl(verse.reflection)) {
-                reflectionButton.style.display = 'block';
-            } else {
-                reflectionButton.style.display = 'none';
-            }
-        });
 
         document.getElementById('copy').addEventListener('click', () => {
             const verseText = document.getElementById('verse').textContent;
